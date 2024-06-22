@@ -1,0 +1,12 @@
+application:
+  name: email_service
+  host: ${APP_HOST}
+  port: ${APP_PORT}
+database:
+  host: ${DBASE_HOST}
+  user: ${DBASE_USER}
+  password: ${DBASE_PW}
+  name: ${DBASE_NAME}
+  port: ${DBASE_PORT}
+  ssl: ${DBASE_SSL}
+  tz: ${DBASE_TZ}
