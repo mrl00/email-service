@@ -25,13 +25,15 @@ func setupDB(t *testing.T) *gorm.DB {
 }
 
 func TestCreateEmail(t *testing.T) {
-	db := setupDB(t)
+	db := models.EmailModel{
+		Db: setupDB(t),
+	}
 
 	email1 := models.Email{
 		UserId: 2,
 		Email:  "email1@mail.com",
 	}
-	models.CreateEmail(db, &email1)
+	db.CreateEmail(&email1)
 	expectedEmail1 := models.Email{
 		EmailId: 1,
 		UserId:  2,
@@ -43,7 +45,7 @@ func TestCreateEmail(t *testing.T) {
 		UserId: 2,
 		Email:  "email2@mail.com",
 	}
-	models.CreateEmail(db, &email2)
+	db.CreateEmail(&email2)
 	expectedEmail2 := models.Email{
 		EmailId: 2,
 		UserId:  2,
@@ -53,7 +55,9 @@ func TestCreateEmail(t *testing.T) {
 }
 
 func TestFindEmailById(t *testing.T) {
-	db := setupDB(t)
+	db := models.EmailModel{
+		Db: setupDB(t),
+	}
 
 	addedEmail := models.Email{
 		UserId: 2,
@@ -69,14 +73,16 @@ func TestFindEmailById(t *testing.T) {
 		Email:   "email1@mail.com",
 	}
 
-	models.CreateEmail(db, &addedEmail)
-	models.FindEmailById(db, &findEmail)
+	db.CreateEmail(&addedEmail)
+	db.FindEmailById(&findEmail)
 
 	assert.Equal(t, expectedEmail1, findEmail, "emails are not equals")
 }
 
 func TestFindAllEmails(t *testing.T) {
-	db := setupDB(t)
+	db := models.EmailModel{
+		Db: setupDB(t),
+	}
 
 	email1 := models.Email{
 		UserId: 2,
@@ -100,10 +106,10 @@ func TestFindAllEmails(t *testing.T) {
 		},
 	}
 
-	models.CreateEmail(db, &email1)
-	models.CreateEmail(db, &email2)
+	db.CreateEmail(&email1)
+	db.CreateEmail(&email2)
 
-	foundEmails, _ := models.FindAllEmails(db)
+	foundEmails, _ := db.FindAllEmails()
 
 	assert.Equal(t, expectedEmails, foundEmails, "list of emails are no equals")
 }
